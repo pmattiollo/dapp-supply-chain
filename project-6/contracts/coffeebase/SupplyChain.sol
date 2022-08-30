@@ -65,6 +65,7 @@ contract SupplyChain is ConsumerRole, DistributorRole, FarmerRole, RetailerRole,
     event Shipped(uint upc);
     event Received(uint upc);
     event Purchased(uint upc);
+    event Refunded(uint amount, address addressToBeRefunded);
 
     // Define a modifer that verifies the Caller
     modifier verifyCaller (address _address) {
@@ -83,7 +84,13 @@ contract SupplyChain is ConsumerRole, DistributorRole, FarmerRole, RetailerRole,
         _;
         uint _price = items[_upc].productPrice;
         uint amountToReturn = msg.value - _price;
-        payable(items[_upc].consumerID).transfer(amountToReturn);
+
+        // It only refunds if there is an amount and the account to be refunded is not a farmer.
+        // The farmer already got ether from the purchase
+        if (amountToReturn > 0 && !isFarmer(msg.sender)) {
+            payable(msg.sender).transfer(amountToReturn);
+            emit Refunded(amountToReturn, msg.sender);
+        }
     }
 
     // Define a modifier that checks if an item.state of a upc is Harvested
