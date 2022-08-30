@@ -19,6 +19,8 @@ The current contracts were deployed to Rinkeby. The main contract of the SuplyCh
 Some illustrations to add more information about the Supply Chain DApp.
 ![lucid chart](images/activity_diagram.png)
 ![lucid chart](images/sequence_diagram.png)
+![lucid chart](images/state_diagram.png)
+![lucid chart](images/class_diagram.png)
 
 ## Getting Started
 
